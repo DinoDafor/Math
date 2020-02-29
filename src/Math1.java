@@ -6,47 +6,28 @@ import java.util.Scanner;
 
 public class Math1 {
     public static void main(String[] args) {
-
         GaussMethodMainElement task = new GaussMethodMainElement();
         task.beginWork();
-
     }
-
-
 }
 
 class GaussMethodMainElement {
-    //Сканнер для считывания данных с клавиатуры пользователя.
     Scanner in = new Scanner(System.in);
-    //Размер квадратного массива.
     int n;
-    //Массив для хранения матрицы системы.
     double[][] a;
-    //Массив для хранения правых частей.
     double[] b;
-    //Дополнительный массив, нужен для перестановки строк местами.
     double[] c;
-    //Массив для хранения вектора неизвестных.
     double[] x;
-    //Массив для хранения невязок.
     double[] r;
-    //Массив для хранения изначальной матрицы системы, нужен будет для нахождения невязки.
     double[][] aOld;
-    //Массив для хранения правых частей, нужен будет для нахождения невязки.
     double[] bOld;
-    //Счётчик, нужен будет для определения знака детерминанта.
     int count = 0;
-
     boolean haveAnswer = true;
 
-    //Главная точка входа из main`a. Является функцией-телом класса.
     public void beginWork() {
         while (true) {
             System.out.println("\u001B[36m" + " Здравствуйте! Данная программа помогает решать СЛАУ Методом Гаусса с выбором главного элемента.");
-
             try {
-
-
                 System.out.println("Если хотите ввести данные вручную, то напишите \"1\" без двойных ковычек и нажмите Enter.");
                 System.out.println("Если хотите считать данные с файла, то напишите \"2\" без двойных ковычек и нажмите на Enter.");
                 System.out.println("Любите всегда получать что-то новое? Тогда напишите \"3\" и Мы заполним систему за вас!");
@@ -83,29 +64,20 @@ class GaussMethodMainElement {
                         this.randomNumbers(Integer.parseInt(in.next().trim()));
                     }
                 } else {
-
                     throw new InputMismatchException();
-
                 }
-
                 this.findAnswer();
-
-
             } catch (NumberFormatException e) {
                 System.out.println("Вводите строго числа! Для n - целочисленное. В файле тоже должны быть только числа.");
             } catch (InputMismatchException e) {
                 System.out.println("Некорректные данные!");
             } catch (IOException e) {
                 System.out.println("Такого файла не существует.");
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println("Превышенна размерность массива!");
             }
-
-
         }
     }
-
-    //Функция для считывания данных с клавиатуры пользователя.
-//Заполняет массив A, затем массив B. Также заполняет заполняет ещё один массив для А и Б, чтобы потом вычислить невязку.
-//Также выводит на экран СЛАУ для ознакомления пользователю.
     public void readDataFromUser() {
         System.out.println("Введите матрицу A: ");
         for (int i = 0; i < a.length; i++) {
@@ -126,7 +98,6 @@ class GaussMethodMainElement {
         Scanner scanner = new Scanner(new File(path));
         if (scanner.hasNextInt()) {
             n = scanner.nextInt();
-
             a = new double[n][n];
             b = new double[n];
             c = new double[n];
@@ -145,8 +116,6 @@ class GaussMethodMainElement {
             }
         } else throw new  InputMismatchException();
     }
-
-    //Функция для нахождения треугольной матрицы. Включает себя перестановку строк, прямой и обратный ход.
     public void findAnswer() {
         System.out.println("Исходная матрица A и вектор B: ");
         for (int i = 0; i < a.length; i++) {
@@ -159,7 +128,6 @@ class GaussMethodMainElement {
                 }
             }
         }
-
         for (int j = 0; j < a.length; j++) { //по строке
             int l = j;
             for (int i = j; i < a.length; i++) { //по столбцу
@@ -169,23 +137,20 @@ class GaussMethodMainElement {
 
             }
             if (a[l][j] == 0) {
-                System.out.println("Нет решения, т.к. определитель равен нулю.");
+                System.out.println("Определитель равен нулю. Либо нет решения, либо бесконечно много решений.");
                 haveAnswer = false;
                 break;
             }
-
-            //Здесь мы делаем перестановку строк (Выбор главного элемента).
             if (l != j) {
                 count++;
-                for (int permutation = 0; permutation < a.length; permutation++) {
-                    c[permutation] = a[j][permutation];
-                    a[j][permutation] = a[l][permutation];
-                    a[l][permutation] = c[permutation];
+                for (int z = 0; z < a.length; z++) {
+                    c[z] = a[j][z];
+                    a[j][z] = a[l][z];
+                    a[l][z] = c[z];
                 }
                 c[0] = b[j];
                 b[j] = b[l];
                 b[l] = c[0];
-//Уведомляем пользователя о каждой перестановке строк.
                 System.out.println("Переставили строки " + (j + 1) + " и " + (l + 1) + " местами.");
                 for (int g = 0; g < a.length; g++) {
                     for (int f = 0; f < a.length; f++) {
@@ -199,21 +164,15 @@ class GaussMethodMainElement {
                 }
 
             }
-
-            //Удаляем Х
             for (int m = j + 1; m < a.length; m++) {
-                double per = a[m][j] / a[j][j];
+                double variable = a[m][j] / a[j][j];
 
                 for (int k = 0; k < a.length; k++) {
-                    a[m][k] = a[m][k] - a[j][k] * per;
+                    a[m][k] = a[m][k] - a[j][k] * variable;
                 }
-                b[m] = b[m] - b[j] * per;
+                b[m] = b[m] - b[j] * variable;
 
             }
-
-
-            //удаляем иксы...
-
             System.out.println("\u001B[36m" + "Удалили из матрицы X" + (j + 1));
             for (int g = 0; g < a.length; g++) {
                 for (int f = 0; f < a.length; f++) {
@@ -225,8 +184,6 @@ class GaussMethodMainElement {
                     }
                 }
             }
-
-
         }
         if (haveAnswer) {
             this.findDeterminant();
@@ -237,9 +194,6 @@ class GaussMethodMainElement {
         haveAnswer = true;
 
     }
-
-    //Функция для вывода невязки на экран пользователю.
-//Расчитывается по формуле Ax* - B;
     public void findResidual() {
 
         for (int i = 0; i < r.length; i++) {
@@ -250,25 +204,19 @@ class GaussMethodMainElement {
             System.out.println("Невязка для " + (i + 1) + " уравнения равна: " + r[i]);
         }
     }
-
-    //Функция для  нахождения и вывода детерминанта на экран пользователю.
-//Используется формула (-1)^k * П a[i][i], где k количество перестановок
     public void findDeterminant() {
         double det = 1;
         for (int i = 0; i < a.length; i++) {
             det = det * a[i][i];
         }
         det = det * Math.pow(-1, count);
+        System.out.println("Определитель равен: " + det);
     }
-
-    //Функция для вывода столбца неизвестных пользователю на экран.
     public void showUnknownColumn() {
         for (int i = 0; i < x.length; i++) {
-            System.out.println("X" + (i + 1) + " равен : " + x[i]);
+            System.out.println("X" + (i + 1) + " равен: " + x[i]);
         }
     }
-
-//Метод для нахождения неизвестных.
     public void findX() {
         for (int i = n - 1; i > -1; i--) {
             double s = 0;
@@ -278,8 +226,6 @@ class GaussMethodMainElement {
             x[i] = (b[i] - s) / a[i][i];
         }
     }
-
-    //Метод для получения случайных коэфициентов для системы.
     public void randomNumbers(int number) {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
