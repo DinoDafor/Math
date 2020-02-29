@@ -1,5 +1,6 @@
 
-
+import java.io.File;
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -188,45 +189,60 @@ class GaussMethodMainElement {
     public void beginWork() {
         while (true) {
             System.out.println("\u001B[36m" + " Здравствуйте! Данная программа помогает решать СЛАУ Методом Гаусса с выбором главного элемента.");
-            System.out.print("Введите n(n<=20): ");
-            try {
-                n = Integer.parseInt(in.next().trim());
-                if (n > 0 && n <= 20) {
-                    a = new double[n][n];
-                    b = new double[n];
-                    c = new double[n];
-                    x = new double[n];
-                    r = new double[n];
-                    aOld = new double[n][n];
-                    bOld = new double[n];
 
-                    System.out.println("Если хотите ввести данные вручную, то напишите \"1\" без двойных ковычек и нажмите Enter.");
-                    System.out.println("Если хотите считать данные с файла, то напишите \"2\" без двойных ковычек и нажмите на Enter.");
-                    System.out.println("Любите всегда получать что-то новое? Тогда напишите \"3\" и Мы заполним систему за вас!");
-                    int choice = Integer.parseInt(in.next().trim());
-                    if (choice == 1) {
+            try {
+
+
+                System.out.println("Если хотите ввести данные вручную, то напишите \"1\" без двойных ковычек и нажмите Enter.");
+                System.out.println("Если хотите считать данные с файла, то напишите \"2\" без двойных ковычек и нажмите на Enter.");
+                System.out.println("Любите всегда получать что-то новое? Тогда напишите \"3\" и Мы заполним систему за вас!");
+                int choice = Integer.parseInt(in.next().trim());
+                if (choice == 1) {
+                    System.out.print("Введите n(n<=20): ");
+                    n = Integer.parseInt(in.next().trim());
+                    if (n > 0 && n <= 20) {
+                        a = new double[n][n];
+                        b = new double[n];
+                        c = new double[n];
+                        x = new double[n];
+                        r = new double[n];
+                        aOld = new double[n][n];
+                        bOld = new double[n];
                         this.readDataFromUser();
-                    } else if (choice == 2) {
-                        this.readDataFromFile();
-                    } else if (choice == 3) {
+                    }
+                } else if (choice == 2) {
+                    System.out.println("Отлично, Вы выбрали чтение с файла. Введите путь до файла.");
+                    this.readDataFromFile(in.next());
+                } else if (choice == 3) {
+                    System.out.print("Введите n(n<=20): ");
+                    n = Integer.parseInt(in.next().trim());
+                    if (n > 0 && n <= 20) {
+                        a = new double[n][n];
+                        b = new double[n];
+                        c = new double[n];
+                        x = new double[n];
+                        r = new double[n];
+                        aOld = new double[n][n];
+                        bOld = new double[n];
+
                         System.out.println("Отлично, Вы выбрали случайное заполнение. Введите сколько хотите цифр в числе.");
                         this.randomNumbers(Integer.parseInt(in.next().trim()));
-                        //todo рандом
-                    } else {
-
-                        throw new InputMismatchException();
-
                     }
-
-                    this.findAnswer();
-
                 } else {
-                    System.out.println("Введите n от 1 до 20!");
+
+                    throw new InputMismatchException();
+
                 }
+
+                this.findAnswer();
+
+
             } catch (NumberFormatException e) {
-                System.out.println("Вводите строго числа! Для n - целочисленное.");
+                System.out.println("Вводите строго числа! Для n - целочисленное. В файле тоже должны быть только числа.");
             } catch (InputMismatchException e) {
-                System.out.println("Введите строго  \"1\" или  \"2\" или  \"3\"!");
+                System.out.println("Некорректные данные!");
+            } catch (IOException e) {
+                System.out.println("Такого файла не существует.");
             }
 
 
@@ -237,7 +253,6 @@ class GaussMethodMainElement {
 //Заполняет массив A, затем массив B. Также заполняет заполняет ещё один массив для А и Б, чтобы потом вычислить невязку.
 //Также выводит на экран СЛАУ для ознакомления пользователю.
     public void readDataFromUser() {
-        //todo проверку
         System.out.println("Введите матрицу A: ");
         for (int i = 0; i < a.length; i++) {
             for (int j = 0; j < a.length; j++) {
@@ -250,6 +265,35 @@ class GaussMethodMainElement {
             b[i] = Double.parseDouble(in.next().replace(",", ".").trim());
             bOld[i] = b[i];
         }
+
+    }
+
+    public void readDataFromFile(String path) throws IOException {
+        Scanner scanner = new Scanner(new File(path));
+        if (scanner.hasNextInt()) {
+            n = scanner.nextInt();
+
+            a = new double[n][n];
+            b = new double[n];
+            c = new double[n];
+            x = new double[n];
+            r = new double[n];
+            aOld = new double[n][n];
+            bOld = new double[n];
+
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    a[i][j] = Double.parseDouble(scanner.next().replace(",", ".").trim());
+                }
+            }
+            for (int i = 0; i < n; i++) {
+                b[i] = Double.parseDouble(scanner.next().replace(",", ".").trim());
+            }
+        } else throw new  InputMismatchException();
+    }
+
+    //Функция для нахождения треугольной матрицы. Включает себя перестановку строк, прямой и обратный ход.
+    public void findAnswer() {
         System.out.println("Исходная матрица A и вектор B: ");
         for (int i = 0; i < a.length; i++) {
             for (int j = 0; j < a.length; j++) {
@@ -261,14 +305,7 @@ class GaussMethodMainElement {
                 }
             }
         }
-    }
 
-    public void readDataFromFile() {
-        //todo сделать чтение из файла
-    }
-
-    //Функция для нахождения треугольной матрицы. Включает себя перестановку строк, прямой и обратный ход.
-    public void findAnswer() {
         for (int j = 0; j < a.length; j++) { //по строке
             int l = j;
             for (int i = j; i < a.length; i++) { //по столбцу
@@ -354,7 +391,7 @@ class GaussMethodMainElement {
 
             //удаляем иксы...
 //todo?
-            System.out.println("\u001B[36m" + "Удалили из матрицы х");
+            System.out.println("\u001B[36m" + "Удалили из матрицы X" + (j + 1));
             for (int g = 0; g < a.length; g++) {
                 for (int f = 0; f < a.length; f++) {
                     int numbers = f;
