@@ -8,153 +8,7 @@ public class Math1 {
     public static void main(String[] args) {
 
         GaussMethodMainElement task = new GaussMethodMainElement();
-
-
         task.beginWork();
-
-
-//        Scanner in = new Scanner(System.in);
-//
-//        System.out.print("Введите n(n<=20): ");
-//        int n = in.nextInt();
-//        double[][] a = new double[n][n];
-//        double[] b = new double[n];
-//        double[] c = new double[n];
-//        double[] x = new double[n];
-//        int l;
-//        double det = 1;
-//        double[] r = new double[n];
-//        double[][] aOld = new double[n][n];
-//        double[] bOld = new double[n];
-//
-//        int count = 0;
-//
-//        System.out.println("Введите матрицу A: ");
-//        for (int i = 0; i < a.length; i++) {
-//            for (int j = 0; j < a.length; j++) {
-//                a[i][j] = in.nextInt();
-//                aOld[i][j] = a[i][j];
-//            }
-//        }
-//        System.out.println("Введите вектор B: ");
-//        for (int i = 0; i < b.length; i++) {
-//            b[i] = in.nextInt();
-//            bOld[i] = b[i];
-//        }
-//        System.out.println("Исходная матрица A и вектор B: ");
-//        for (int i = 0; i < a.length; i++) {
-//            for (int j = 0; j < a.length; j++) {
-//                int numbers = j;
-//                System.out.print("\u001B[34m" + a[i][j] + "*x" + (numbers + 1) + "  ");
-//                if (j == a.length - 1) {
-//                    System.out.println("\t" + "\u001B[35m" + b[i]);
-//                    System.out.println("\n");
-//                }
-//            }
-//        }
-//        //todo sout верна ли? перезаписать данные
-//        //todo начинаем
-//        for (int j = 0; j < a.length; j++) { //по строке
-//            l = j;
-//            for (int i = j; i < a.length; i++) { //по столбцу
-//
-//                if (a[i][j] > a[l][j]) { //todo добавить сравнение по модулю
-//                    l = i;
-//                }
-//            }
-//            //перестановка в массиве
-//
-//            if (l != j) { // если самый большой элемент не на первом месте, то надо поменять их местами
-//                count++;
-//                for (int permutation = 0; permutation < a.length; permutation++) {
-//                    c[permutation] = a[j][permutation];
-//                    a[j][permutation] = a[l][permutation];
-//                    a[l][permutation] = c[permutation];
-//                }
-//                c[0] = b[j];
-//                b[j] = b[l];
-//                b[l] = c[0];
-////Вывод пока что для отладки
-//                System.out.println("Переставили строки " + (j + 1) + " и " + (l + 1) + " местами.");
-//                for (int g = 0; g < a.length; g++) {
-//                    for (int f = 0; f < a.length; f++) {
-//                        int numbers = f;
-//                        System.out.print("\u001B[34m" + a[g][f] + "*x" + (numbers + 1) + "  ");
-//                        if (f == a.length - 1) {
-//                            System.out.println("\t" + "\u001B[35m" + b[g]);
-//                            System.out.println("\n");
-//                        }
-//                    }
-//                }
-//
-//            }
-//
-//
-//            //todo if и перестановка значений если а = 0;
-//
-//            for (int m = j + 1; m < a.length; m++) {
-//                double per = a[m][j] / a[j][j];
-//
-//                for (int k = 0; k < a.length; k++) {
-//                    a[m][k] = a[m][k] - a[j][k] * per;
-//                }
-//                b[m] = b[m] - b[j] * per;
-//
-//            }
-//
-//
-//            //удаляем иксы...
-////todo?
-//            System.out.println("Удалили из матрицы х");
-//            for (int g = 0; g < a.length; g++) {
-//                for (int f = 0; f < a.length; f++) {
-//                    int numbers = f;
-//                    System.out.print("\u001B[34m" + a[g][f] + "*x" + (numbers + 1) + "  ");
-//                    if (f == a.length - 1) {
-//                        System.out.println("\t" + "\u001B[35m" + b[g]);
-//                        System.out.println("\n");
-//                    }
-//                }
-//            }
-//
-//        }
-//
-//        //обратный ход
-//        for (int i = n-1; i > -1; i--) {
-//            double s = 0;
-//            for (int j = i + 1; j < n; j++) {
-//                s = s + a[i][j]*x[j];
-//            }
-//            x[i] = (b[i]-s)/a[i][i];
-//        }
-//
-//
-//        //вывод определителя
-//        for (int i = 0; i < a.length; i++) {
-//
-//            det = det *a[i][i];
-//        }
-//        det = det* Math.pow(-1, count);
-//        System.out.println("Определитель равен: " + det);
-//
-//
-//
-//
-////Вывод результатов
-//        for (int i = 0; i < x.length; i++) {
-//            System.out.println("X равен : " +  x[i]);
-//        }
-//
-//
-//        //Вывод невязки
-//        for (int i = 0; i <r.length ; i++) {
-//            for (int j = 0; j < r.length; j++) {
-//                r[i] += aOld[i][j] * x[j];
-//            }
-//            r[i] = r[i] - bOld[i];
-//            System.out.println("Невязка равна: " + r[i]);
-//        }
-
 
     }
 
@@ -346,37 +200,6 @@ class GaussMethodMainElement {
 
             }
 
-
-            //todo if и перестановка значений если а = 0;
-
-//            //если элемент на  главной диагонали равен нулю, то
-//            if (a[j][j] == 0) {
-//                l = j;
-//                for (int i = j; i < a.length; i++) { //по столбцу
-//                    if (a[i][j] != 0) {
-//                        l = i;
-//                    }
-//                }
-//                if (l != j) {
-//                    count++;
-//                    for (int permutation = 0; permutation < a.length; permutation++) {
-//                        c[permutation] = a[j][permutation];
-//                        a[j][permutation] = a[l][permutation];
-//                        a[l][permutation] = c[permutation];
-//                    }
-//                    c[0] = b[j];
-//                    b[j] = b[l];
-//                    b[l] = c[0];
-//                } else {
-//                    //todo подправить
-//                    System.out.println("Решения нет!!!");
-//                    break;
-//                }
-//
-//
-//
-//            }
-
             //Удаляем Х
             for (int m = j + 1; m < a.length; m++) {
                 double per = a[m][j] / a[j][j];
@@ -390,7 +213,7 @@ class GaussMethodMainElement {
 
 
             //удаляем иксы...
-//todo?
+
             System.out.println("\u001B[36m" + "Удалили из матрицы X" + (j + 1));
             for (int g = 0; g < a.length; g++) {
                 for (int f = 0; f < a.length; f++) {
@@ -408,7 +231,6 @@ class GaussMethodMainElement {
         if (haveAnswer) {
             this.findDeterminant();
             this.findX();
-            //todo добавить
             this.showUnknownColumn();
             this.findResidual();
         }
@@ -446,20 +268,6 @@ class GaussMethodMainElement {
         }
     }
 
-    //    //Функция для вывода треугольной матрицы на экран пользователю.
-//    public void showTriangularMatrix() {
-//        //todo оптимизировать sout
-//        for (int g = 0; g < a.length; g++) {
-//            for (int f = 0; f < a.length; f++) {
-//                int numbers = f;
-//                System.out.print("\u001B[34m" + a[g][f] + "*x" + (numbers + 1) + "  ");
-//                if (f == a.length - 1) {
-//                    System.out.println("\t" + "\u001B[35m" + b[g]);
-//                    System.out.println("\n");
-//                }
-//            }
-//        }
-//    }
 //Метод для нахождения неизвестных.
     public void findX() {
         for (int i = n - 1; i > -1; i--) {
